@@ -1,7 +1,5 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
-import remarkInjectTitle from './src/plugins/remarkInjectTitle.js'
-import {astroDebug} from 'stormlit'
 
 
 
