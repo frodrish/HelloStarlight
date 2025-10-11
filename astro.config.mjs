@@ -17,7 +17,7 @@ export default defineConfig({
     integrations: [
     starlight({
         title: 'No Fontmatter',
-        //sidebar: sidebarTest,
+        sidebar: sidebarTest,
     }),
     ],
 
