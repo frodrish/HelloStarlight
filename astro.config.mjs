@@ -6,7 +6,6 @@ import starlight from '@astrojs/starlight';
 const sidebarTest = [{
             label: 'Title Test',
             items: [
-                { label: 'Test', slug: 'test' },
                 { label: 'Test: No Title And No Header', slug: 'test/notitlenoheader' },
                 { label: 'Test: No Title And With Header', slug: 'test/notitlewithheader' },
                 { label: 'Test: With Title', slug: 'test/withtitle' },
