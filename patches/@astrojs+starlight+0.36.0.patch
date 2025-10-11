@@ -27,31 +27,40 @@ index 58def2e..70cedd4 100644
  	}
  	return sortHead(head);
 diff --git a/node_modules/@astrojs/starlight/utils/navigation.ts b/node_modules/@astrojs/starlight/utils/navigation.ts
-index 5fe09b8..f6901e4 100644
+index 5fe09b8..6465e2a 100644
 --- a/node_modules/@astrojs/starlight/utils/navigation.ts
 +++ b/node_modules/@astrojs/starlight/utils/navigation.ts
-@@ -291,7 +291,10 @@ function getOrder(routeOrDir: Route | Dir): number {
+@@ -240,7 +240,7 @@ function treeify(routes: Route[], locale: string | undefined, baseDir: string):
+ 	const treeRoot: Dir = makeDir(baseDir);
+ 	routes
+ 		// Remove any entries that should be hidden
+-		.filter((doc) => !doc.entry.data.sidebar.hidden)
++		.filter((doc) => (doc.entry.data.sidebar === undefined || !doc.entry.data.sidebar.hidden))
+ 		// Compute the path of each entry from the root of the collection ahead of time.
+ 		.map((doc) => [getRoutePathRelativeToCollectionRoot(doc, locale), doc] as const)
+ 		// Sort by depth, to build the tree depth first.
+@@ -277,9 +277,9 @@ function treeify(routes: Route[], locale: string | undefined, baseDir: string):
+ function linkFromRoute(route: Route, attrs?: LinkHTMLAttributes): SidebarLink {
+ 	return makeSidebarLink(
+ 		slugToPathname(route.slug),
+-		route.entry.data.sidebar.label || route.entry.data.title,
+-		route.entry.data.sidebar.badge,
+-		{ ...attrs, ...route.entry.data.sidebar.attrs }
++		route.entry.data.sidebar?.label || route.entry.data.title,
++		route.entry.data.sidebar?.badge,
++		{ ...attrs, ...route.entry.data.sidebar?.attrs }
+ 	);
+ }
+ 
+@@ -291,7 +291,7 @@ function getOrder(routeOrDir: Route | Dir): number {
  	return isDir(routeOrDir)
  		? Math.min(...Object.values(routeOrDir).flatMap(getOrder))
  		: // If no order value is found, set it to the largest number possible.
 -			(routeOrDir.entry.data.sidebar.order ?? Number.MAX_VALUE);
-+			(
-+				(routeOrDir.entry.data.sidebar === undefined || routeOrDir.entry.data.sidebar.order === undefined)?
-+				Number.MAX_VALUE : routeOrDir.entry.data.sidebar.order
-+			);
++        (routeOrDir.entry.data.sidebar?.order ?? Number.MAX_VALUE);;
  }
  
  /** Sort a directory’s entries by user-specified order or alphabetically if no order specified. */
-@@ -393,6 +396,9 @@ function getIntermediateSidebarFromConfig(
- 	pathname: string,
- 	locale: string | undefined
- ): SidebarEntry[] {
-+	if(sidebarConfig === undefined) {
-+		sidebarConfig = []
-+	}
- 	const routes = getLocaleRoutes(locale);
- 	if (sidebarConfig) {
- 		return sidebarConfig.map((group) => configItemToEntry(group, pathname, locale, routes));
 diff --git a/node_modules/@astrojs/starlight/utils/routing/index.ts b/node_modules/@astrojs/starlight/utils/routing/index.ts
 index 460d15a..a47d49c 100644
 --- a/node_modules/@astrojs/starlight/utils/routing/index.ts
