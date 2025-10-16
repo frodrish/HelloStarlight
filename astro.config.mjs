@@ -8,7 +8,8 @@ const sidebarTest = [{
             items: [
                 { label: 'Test: No Title And No Header', slug: 'test/notitlenoheader' },
                 { label: 'Test: No Title And With Header', slug: 'test/notitlewithheader' },
-                { label: 'Test: With Title', slug: 'test/withtitle' },
+                { label: 'Test: With Title And No Header', slug: 'test/withtitlenoheader' },
+                { label: 'Test: With Title And With Header', slug: 'test/withtitlewithheader' },
             ],
         }]
 
